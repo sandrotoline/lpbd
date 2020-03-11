@@ -1,0 +1,39 @@
+<DOCTYPE!>
+    <html>
+
+    <head>
+        <script>
+            function enviarPost() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "localhost:8080/lpbd/user/save/", true);
+                xhr.setRequestHeader('Content-Type', 'application/application/json; charset=UTF-8');
+                xhr.send(JSON.stringify(criarUsuario()));
+            }
+
+            function criarUsuario() {
+                var user = {
+                    "id": 1,
+                    "nome": "Leonardo",
+                    "sobrenome": "Aleixo",
+                    "dataNascimento": "1999-01-01T00:00:00.000",
+                    "cpf": "45475606846",
+                    "telefone": "12981363865"
+                }
+                return user;
+            }
+
+            function buscarGet() {
+                var xmlHttp = new XMLHttpRequest();
+                xmlHttp.open("GET", "localhost:8080/lpbd/user/get/id/1/", false); // false for synchronous request
+                xmlHttp.send(null);
+                return xmlHttp.responseText;
+            }
+        </script>
+    </head>
+
+    <body>
+        <button onclick="enviarPost()">Salvar Usuário</button>
+        <button onclick="buscarGet()">Buscar Usuário</button>
+    </body>
+
+    </html>

@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.1.2 (Python 3.8.1 on win32)" generated="20200310 15:10:10.710" rpa="false">
+<suite id="s1" name="Salvar Usuario Teste" source="C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\salvar_usuario\salvar_usuario_teste.robot">
+<test id="s1-t1" name="Salvar Usuario Nome Nao Preenchido">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_NOME_NAO_PREENCHIDO}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:10.962" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_nome_nao_preenchido.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_nome_nao_preenchido.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:10.969" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"",
+	"sobrenome":"Aleixo",
+	"dataNascimento":"1999-01-01T00:00:00.000",
+	"cpf":"45475606846",
+	"telefone":"12981363865"
+}</msg>
+<status status="PASS" starttime="20200310 15:10:10.962" endtime="20200310 15:10:10.970"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:10.970" level="INFO">${objeto} = {'id': 1, 'nome': '', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:10.970" endtime="20200310 15:10:10.970"></status>
+</kw>
+<msg timestamp="20200310 15:10:10.971" level="INFO">${corpo} = {'id': 1, 'nome': '', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:10.962" endtime="20200310 15:10:10.971"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:10.972" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:10.972" endtime="20200310 15:10:10.972"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:10.982" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:10.972" endtime="20200310 15:10:10.982"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:10.983" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:10.983" endtime="20200310 15:10:10.983"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:10.984" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:10.983" endtime="20200310 15:10:10.984"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:10.984" endtime="20200310 15:10:10.984"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:10.985" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "", "sobrenome": "Aleixo", "dataNascimento": "1999-01-01T00:00:00.000", "cpf": "45475606846", "telefone": "12981363865"} 
+json=None</msg>
+<msg timestamp="20200310 15:10:11.300" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:10.984" endtime="20200310 15:10:11.300"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.300" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:10.971" endtime="20200310 15:10:11.300"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.301" endtime="20200310 15:10:11.302"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.301" endtime="20200310 15:10:11.302"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.text}</arg>
+<arg>${MSG_USUARIO_NOME_NAO_PREENCHIDO}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.303" endtime="20200310 15:10:11.304"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.302" endtime="20200310 15:10:11.304"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:10.961" endtime="20200310 15:10:11.304" critical="yes"></status>
+</test>
+<test id="s1-t2" name="Salvar Usuario Sobrenome Nao Preenchido">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_SOBRENOME_NAO_PREENCHIDO}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.307" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_sobrenome_nao_preenchido.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_sobrenome_nao_preenchido.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:11.318" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"Leonardo",
+	"sobrenome":"",
+	"dataNascimento":"1999-01-01T00:00:00.000",
+	"cpf":"45475606846",
+	"telefone":"12981363865"
+}</msg>
+<status status="PASS" starttime="20200310 15:10:11.307" endtime="20200310 15:10:11.318"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.319" level="INFO">${objeto} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': '', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.318" endtime="20200310 15:10:11.319"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.319" level="INFO">${corpo} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': '', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.306" endtime="20200310 15:10:11.319"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.321" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:11.320" endtime="20200310 15:10:11.321"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.323" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:11.321" endtime="20200310 15:10:11.323"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:11.323" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:11.323" endtime="20200310 15:10:11.324"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.324" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.324" endtime="20200310 15:10:11.325"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.325" endtime="20200310 15:10:11.326"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.327" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "Leonardo", "sobrenome": "", "dataNascimento": "1999-01-01T00:00:00.000", "cpf": "45475606846", "telefone": "12981363865"} 
+json=None</msg>
+<msg timestamp="20200310 15:10:11.425" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.326" endtime="20200310 15:10:11.425"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.425" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.320" endtime="20200310 15:10:11.425"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.427" endtime="20200310 15:10:11.427"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.426" endtime="20200310 15:10:11.427"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.text}</arg>
+<arg>${MSG_USUARIO_SOBRENOME_NAO_PREENCHIDO}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.428" endtime="20200310 15:10:11.428"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.427" endtime="20200310 15:10:11.429"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.305" endtime="20200310 15:10:11.429" critical="yes"></status>
+</test>
+<test id="s1-t3" name="Salvar Usuario Data Nao Preenchida">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_IDADE_NAO_PREENCHIDA}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.433" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_idade_nao_preenchida.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_idade_nao_preenchida.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:11.439" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"Leonardo",
+	"sobrenome":"Aleixo",
+	"dataNascimento": null,
+	"cpf":"45475606846",
+	"telefone":"12981363865"
+}</msg>
+<status status="PASS" starttime="20200310 15:10:11.432" endtime="20200310 15:10:11.439"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.439" level="INFO">${objeto} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': None, 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.439" endtime="20200310 15:10:11.439"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.439" level="INFO">${corpo} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': None, 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.431" endtime="20200310 15:10:11.439"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.441" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:11.440" endtime="20200310 15:10:11.441"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.443" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:11.441" endtime="20200310 15:10:11.443"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:11.444" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:11.443" endtime="20200310 15:10:11.444"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.445" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.444" endtime="20200310 15:10:11.445"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.445" endtime="20200310 15:10:11.446"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.448" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "Leonardo", "sobrenome": "Aleixo", "dataNascimento": null, "cpf": "45475606846", "telefone": "12981363865"} 
+json=None</msg>
+<msg timestamp="20200310 15:10:11.542" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.447" endtime="20200310 15:10:11.542"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.542" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.440" endtime="20200310 15:10:11.542"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.543" endtime="20200310 15:10:11.544"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.543" endtime="20200310 15:10:11.544"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.text}</arg>
+<arg>${MSG_USUARIO_IDADE_NAO_PREENCHIDA}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.545" endtime="20200310 15:10:11.545"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.544" endtime="20200310 15:10:11.545"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.430" endtime="20200310 15:10:11.546" critical="yes"></status>
+</test>
+<test id="s1-t4" name="Salvar Usuario Cpf Invalido">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_CPF_INVALIDO}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.549" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_cpf_invalido.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_cpf_invalido.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:11.555" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"Leonardo",
+	"sobrenome":"Aleixo",
+	"dataNascimento":"1999-01-01T00:00:00.000",
+	"cpf":"45475606046",
+	"telefone":"12981363865"
+}</msg>
+<status status="PASS" starttime="20200310 15:10:11.549" endtime="20200310 15:10:11.555"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.555" level="INFO">${objeto} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606046', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.555" endtime="20200310 15:10:11.556"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.556" level="INFO">${corpo} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606046', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.548" endtime="20200310 15:10:11.556"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.557" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:11.557" endtime="20200310 15:10:11.557"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.559" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:11.557" endtime="20200310 15:10:11.559"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:11.559" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:11.559" endtime="20200310 15:10:11.560"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.561" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.560" endtime="20200310 15:10:11.561"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.561" endtime="20200310 15:10:11.561"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.563" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "Leonardo", "sobrenome": "Aleixo", "dataNascimento": "1999-01-01T00:00:00.000", "cpf": "45475606046", "telefone": "12981363865"} 
+json=None</msg>
+<msg timestamp="20200310 15:10:11.659" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.562" endtime="20200310 15:10:11.659"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.659" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.556" endtime="20200310 15:10:11.659"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.661" endtime="20200310 15:10:11.661"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.660" endtime="20200310 15:10:11.661"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.text}</arg>
+<arg>${MSG_CPF_INVALIDO}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.662" endtime="20200310 15:10:11.663"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.662" endtime="20200310 15:10:11.663"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.547" endtime="20200310 15:10:11.663" critical="yes"></status>
+</test>
+<test id="s1-t5" name="Salvar Usuario Telefone Nao Preenchido">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_TELEFONE_NAO_PREENCHIDo}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.667" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_telefone_nao_preenchido.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_telefone_nao_preenchido.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:11.672" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"Leonardo",
+	"sobrenome":"Aleixo",
+	"dataNascimento":"1999-01-01T00:00:00.000",
+	"cpf":"45475606846",
+	"telefone":""
+}</msg>
+<status status="PASS" starttime="20200310 15:10:11.667" endtime="20200310 15:10:11.672"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.673" level="INFO">${objeto} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': ''}</msg>
+<status status="PASS" starttime="20200310 15:10:11.673" endtime="20200310 15:10:11.673"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.673" level="INFO">${corpo} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': ''}</msg>
+<status status="PASS" starttime="20200310 15:10:11.666" endtime="20200310 15:10:11.673"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.675" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:11.674" endtime="20200310 15:10:11.675"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.677" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:11.675" endtime="20200310 15:10:11.677"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:11.678" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:11.677" endtime="20200310 15:10:11.678"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.679" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.678" endtime="20200310 15:10:11.679"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.679" endtime="20200310 15:10:11.680"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.681" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "Leonardo", "sobrenome": "Aleixo", "dataNascimento": "1999-01-01T00:00:00.000", "cpf": "45475606846", "telefone": ""} 
+json=None</msg>
+<msg timestamp="20200310 15:10:11.785" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.681" endtime="20200310 15:10:11.785"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.786" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.674" endtime="20200310 15:10:11.786"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.787" endtime="20200310 15:10:11.788"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.787" endtime="20200310 15:10:11.788"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.text}</arg>
+<arg>${MSG_TELEFONE_NAO_PREENCHIDO}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.789" endtime="20200310 15:10:11.790"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.788" endtime="20200310 15:10:11.790"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.664" endtime="20200310 15:10:11.790" critical="yes"></status>
+</test>
+<test id="s1-t6" name="Salvar Usuario Idade Invalida">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_IDADE_ERRADA}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.794" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_idade_errada.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_idade_errada.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:11.802" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"Leonardo",
+	"sobrenome":"Aleixo",
+	"dataNascimento":"2005-01-01T00:00:00.000",
+	"cpf":"45475606846",
+	"telefone":"12981363865"
+}</msg>
+<status status="PASS" starttime="20200310 15:10:11.794" endtime="20200310 15:10:11.802"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.802" level="INFO">${objeto} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '2005-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.802" endtime="20200310 15:10:11.803"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.803" level="INFO">${corpo} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '2005-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.793" endtime="20200310 15:10:11.803"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.805" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:11.804" endtime="20200310 15:10:11.805"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.808" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:11.805" endtime="20200310 15:10:11.809"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:11.809" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:11.809" endtime="20200310 15:10:11.810"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.811" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.810" endtime="20200310 15:10:11.811"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.811" endtime="20200310 15:10:11.811"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.813" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "Leonardo", "sobrenome": "Aleixo", "dataNascimento": "2005-01-01T00:00:00.000", "cpf": "45475606846", "telefone": "12981363865"} 
+json=None</msg>
+<msg timestamp="20200310 15:10:11.915" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.812" endtime="20200310 15:10:11.915"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.915" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.803" endtime="20200310 15:10:11.915"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.916" endtime="20200310 15:10:11.917"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.916" endtime="20200310 15:10:11.917"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.text}</arg>
+<arg>${MSG_USUARIO_IDADE_ERRADA}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.917" endtime="20200310 15:10:11.918"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.917" endtime="20200310 15:10:11.918"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.792" endtime="20200310 15:10:11.918" critical="yes"></status>
+</test>
+<test id="s1-t7" name="Salvar Usuario Sucesso">
+<kw name="Ler Arquivo" library="ler_arquivo_json">
+<arguments>
+<arg>${USUARIO_SUCESSO}</arg>
+</arguments>
+<assign>
+<var>${corpo}</var>
+</assign>
+<kw name="Get File" library="OperatingSystem">
+<doc>Returns the contents of a specified file.</doc>
+<arguments>
+<arg>../arquivos/json/${json_file}</arg>
+</arguments>
+<assign>
+<var>${dado_json}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.922" level="INFO" html="yes">Getting file '&lt;a href="file://C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_correto.json"&gt;C:\Users\Aleixo\Documents\sakaue\dev-ops\testes\arquivos\json\usuario_correto.json&lt;/a&gt;'.</msg>
+<msg timestamp="20200310 15:10:11.930" level="INFO">${dado_json} = {
+    "id" : 1,
+	"nome":"Leonardo",
+	"sobrenome":"Aleixo",
+	"dataNascimento":"1999-01-01T00:00:00.000",
+	"cpf":"45475606846",
+	"telefone":"12981363865"
+}</msg>
+<status status="PASS" starttime="20200310 15:10:11.921" endtime="20200310 15:10:11.930"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>json.loads('''${dado_json}''')</arg>
+<arg>json</arg>
+</arguments>
+<assign>
+<var>${objeto}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.931" level="INFO">${objeto} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.930" endtime="20200310 15:10:11.931"></status>
+</kw>
+<msg timestamp="20200310 15:10:11.931" level="INFO">${corpo} = {'id': 1, 'nome': 'Leonardo', 'sobrenome': 'Aleixo', 'dataNascimento': '1999-01-01T00:00:00.000', 'cpf': '45475606846', 'telefone': '12981363865'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.920" endtime="20200310 15:10:11.931"></status>
+</kw>
+<kw name="Chamar post" library="chamar_post">
+<arguments>
+<arg>${corpo}</arg>
+<arg>${URL_SALVAR_USUARIO}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.932" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:11.932" endtime="20200310 15:10:11.932"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.933" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:11.932" endtime="20200310 15:10:11.933"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:11.934" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:11.934" endtime="20200310 15:10:11.934"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.934" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:11.934" endtime="20200310 15:10:11.934"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:11.935" endtime="20200310 15:10:11.935"></status>
+</kw>
+<kw name="Post Request" library="RequestsLibrary">
+<doc>Send a POST request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}</arg>
+<arg>data=${json}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:11.935" level="INFO">POST Request using : uri=/lpbd/user/save/, params=None, files=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data={"id": 1, "nome": "Leonardo", "sobrenome": "Aleixo", "dataNascimento": "1999-01-01T00:00:00.000", "cpf": "45475606846", "telefone": "12981363865"} 
+json=None</msg>
+<msg timestamp="20200310 15:10:12.143" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.935" endtime="20200310 15:10:12.143"></status>
+</kw>
+<msg timestamp="20200310 15:10:12.143" level="INFO">${resposta} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:11.931" endtime="20200310 15:10:12.143"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${SUCESSO_200}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:12.145" endtime="20200310 15:10:12.146"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.145" endtime="20200310 15:10:12.146"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:11.919" endtime="20200310 15:10:12.146" critical="yes"></status>
+</test>
+<test id="s1-t8" name="Buscar Usuario Sucesso">
+<kw name="Chamar get" library="chamar_get">
+<arguments>
+<arg>1</arg>
+<arg>${URL_GET_USUARIO_ID}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.151" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:12.150" endtime="20200310 15:10:12.151"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.152" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:12.151" endtime="20200310 15:10:12.152"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:12.152" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:12.152" endtime="20200310 15:10:12.153"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.153" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:12.153" endtime="20200310 15:10:12.153"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:12.154" endtime="20200310 15:10:12.154"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}${id}/</arg>
+<arg>data=${id}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.154" level="INFO">GET Request using : uri=/lpbd/user/get/id/1/, params=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data=1 
+json=None</msg>
+<msg timestamp="20200310 15:10:12.268" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:12.154" endtime="20200310 15:10:12.268"></status>
+</kw>
+<msg timestamp="20200310 15:10:12.268" level="INFO">${resposta} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:12.149" endtime="20200310 15:10:12.268"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${SUCESSO_200}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:12.271" endtime="20200310 15:10:12.271"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.270" endtime="20200310 15:10:12.271"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.148" endtime="20200310 15:10:12.272" critical="yes"></status>
+</test>
+<test id="s1-t9" name="Buscar ID Inexistente">
+<kw name="Chamar get" library="chamar_get">
+<arguments>
+<arg>0</arg>
+<arg>${URL_GET_USUARIO_ID}</arg>
+</arguments>
+<assign>
+<var>${resposta}</var>
+</assign>
+<kw name="Convert To Bytes" library="BuiltIn">
+<doc>Converts the given ``input`` to bytes according to the ``input_type``.</doc>
+<arguments>
+<arg>${user}:${pass}</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.277" level="INFO">${userpass} = admin:2dWKvEax7Nzc</msg>
+<status status="PASS" starttime="20200310 15:10:12.277" endtime="20200310 15:10:12.278"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>base64.b64encode($userpass)</arg>
+<arg>base64</arg>
+</arguments>
+<assign>
+<var>${userpass}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.280" level="INFO">${userpass} = YWRtaW46MmRXS3ZFYXg3Tnpj</msg>
+<status status="PASS" starttime="20200310 15:10:12.278" endtime="20200310 15:10:12.280"></status>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${URI_BASE_VENDA_ECOMMERCE_LOCAL}</arg>
+</arguments>
+<msg timestamp="20200310 15:10:12.281" level="INFO">Creating Session using : alias=sessao, url=http://localhost:8080, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20200310 15:10:12.280" endtime="20200310 15:10:12.281"></status>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<arguments>
+<arg>Content-Type=application/json</arg>
+</arguments>
+<assign>
+<var>${headers}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.282" level="INFO">${headers} = {'Content-Type': 'application/json'}</msg>
+<status status="PASS" starttime="20200310 15:10:12.282" endtime="20200310 15:10:12.282"></status>
+</kw>
+<kw name="Set To Dictionary" library="Collections">
+<doc>Adds the given ``key_value_pairs`` and ``items`` to the ``dictionary``.</doc>
+<arguments>
+<arg>${headers}</arg>
+<arg>Authorization</arg>
+<arg>Basic ${userpass}</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:12.282" endtime="20200310 15:10:12.283"></status>
+</kw>
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>sessao</arg>
+<arg>${url}${id}/</arg>
+<arg>data=${id}</arg>
+<arg>headers=${headers}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20200310 15:10:12.284" level="INFO">GET Request using : uri=/lpbd/user/get/id/0/, params=None, allow_redirects=True, timeout=None
+headers={'User-Agent': 'python-requests/2.23.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Basic YWRtaW46MmRXS3ZFYXg3Tnpj'} 
+data=0 
+json=None</msg>
+<msg timestamp="20200310 15:10:12.391" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:12.283" endtime="20200310 15:10:12.391"></status>
+</kw>
+<msg timestamp="20200310 15:10:12.392" level="INFO">${resposta} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20200310 15:10:12.275" endtime="20200310 15:10:12.392"></status>
+</kw>
+<kw name="Validar Requisicao">
+<arguments>
+<arg>${resposta.status_code}</arg>
+<arg>${ERRO_400}</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${resp1}" != "${esp1}"</arg>
+<arg>Invalidar Deploy</arg>
+</arguments>
+<status status="PASS" starttime="20200310 15:10:12.393" endtime="20200310 15:10:12.394"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.393" endtime="20200310 15:10:12.394"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.274" endtime="20200310 15:10:12.394" critical="yes"></status>
+</test>
+<test id="s1-t10" name="Validar Deploy">
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${DEPLOY}" == "1"</arg>
+<arg>Deploy</arg>
+</arguments>
+<kw name="Deploy" library="deploy">
+<status status="PASS" starttime="20200310 15:10:12.400" endtime="20200310 15:10:13.365"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.399" endtime="20200310 15:10:13.365"></status>
+</kw>
+<status status="PASS" starttime="20200310 15:10:12.397" endtime="20200310 15:10:13.366" critical="yes"></status>
+</test>
+<status status="PASS" starttime="20200310 15:10:10.713" endtime="20200310 15:10:13.368"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="10" fail="0">Critical Tests</stat>
+<stat pass="10" fail="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="10" fail="0" id="s1" name="Salvar Usuario Teste">Salvar Usuario Teste</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
